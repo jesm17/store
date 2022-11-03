@@ -1,0 +1,21 @@
+#i
+{
+  font-size: 20px;
+   margin-left: 5px;
+}
+mat-card{
+  margin: 5px;
+}
+#boton {
+  position: fixed;
+  float: right;
+  cursor: pointer;
+  right: 14px;
+  bottom: 14px;
+  z-index: 100;
+
+}
+
+
+
+
