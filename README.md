@@ -30,4 +30,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 Run `ng add @angular/material` for add Angular Material
 
 ## API: 
-# fakeStoreApi: https://fakestoreapi.com/products
+fakeStoreApi: https://fakestoreapi.com/products
