@@ -26,5 +26,8 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
+## Angular Material
+Run `ng add @angular/material` for add Angular Material
 
-## API: fakeStoreApi: https://fakestoreapi.com/products
+## API: 
+# fakeStoreApi: https://fakestoreapi.com/products
