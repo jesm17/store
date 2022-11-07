@@ -2,40 +2,50 @@
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
 />
+<body>
+  <div *ngIf="hidden">
+    <div class="d-flex justify-content-center my-4">
+      <div class="alert alert-success">
+        There are no products in your cart
+        <i class="bi bi-cart-fill"></i>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center my-4">
+      <img
+        draggable="false"
+        style="width: 500px; height: 500px"
+        src="/assets/Add to Cart-amico.svg"
+      />
+    </div>
+  </div>
 
-
-  <div class="row col-sm-11  my-2">
-    <div *ngFor="let product of products">
-      <div class="w-100 h-100">
+  <div class="row col-sm-11 my-2 ms-2">
+    <div *ngFor="let product of products" id="main" class=" w-75  mb-2">
+      <div class="w-75 h-100 " >
         <div class="row cols-5" id="principal">
           <div class="d-flex aling-items-start">
             <div class="d-flex align-items-center">
               <img src="{{ product.image }}" alt="" />
             </div>
-            <div class="row row-cols-1 w-100 h-100 p-1 m-1">
+            <div class="row row-cols-1 w-50 h-100 p-1 m-1">
               <div class="col">
                 <h3 class="fw-semibold">
                   {{ product.title }}
                 </h3>
               </div>
-              <div class="col">
-                <h4>
-                  {{ product.description }}
-                </h4>
-              </div>
             </div>
-            <div class="row row-cols-1 d-flex align-items-center w-25">
+            <div class="row row-cols-1 d-flex align-items-center w-50 mx-4">
               <div class="col">
                 <span class="fw-semibold"> Unit price: </span>
-                {{ product.total | currency: "USD" }}
+                {{ product.price | currency: "USD" }}
                 <br />
                 <span class="fw-semibold"> Total price: </span>
-                {{ product.total * product.amount | currency: "USD" }}
+                {{ product.price * product.amount | currency: "USD" }}
               </div>
             </div>
 
-            <div class="d-flex align-items-center w-25">
-              <div class="row row-cols-3 m-1" id="items-principal">
+            <div class="d-flex align-items-center w-50 mx-2">
+              <div class="row row-cols-3 " id="items-principal">
                 <div
                   class="col d-flex justify-content-center"
                   (click)="removeAmount(product.id)"
@@ -45,7 +55,7 @@
                   </button>
                 </div>
                 <div class="col d-flex justify-content-center num">
-                  <span class="btn" id="items">
+                  <span class="d-flex align-items-center" id="items">
                     {{ product.amount }}
                   </span>
                 </div>
@@ -59,6 +69,14 @@
                 </div>
               </div>
             </div>
+            <div
+              class="d-flex justify-content-center d-flex align-items-center ms-3"
+              (click)="removeItem(product.id)"
+            >
+              <button mat-raised-button color="warn" id="remove">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -66,14 +84,22 @@
     </div>
   </div>
 
-    <div class="row col-sm-1" id="pay">
-    Total pay:
-    {{ total | currency: "USD" }}
-    <br>
-    <a href="/products" class="btn"
-    >Back to buy <i class="bi bi-bag-plus-fill"></i
-      ></a>
+  <div class="col-sm-2" id="pay">
+    <div class="ms-2 my-1">
+      Total pay:
+      {{ total | currency: "USD" }}
     </div>
+    <div class="col-sm-12 my-2 ms-2">
+      <button mat-raised-button color="warn" routerLink="/products">
+        Back to buy <i class="bi bi-bag-plus-fill"></i>
+      </button>
+    </div>
+    <div class="col-sm-12 my-2 ms-2" (click)="clearCart()">
+      <button mat-raised-button color="warn">
+        Clear cart <i class="bi bi-cart-x"></i>
+      </button>
+    </div>
+  </div>
 
-
-
+  <app-footer></app-footer>
+</body>

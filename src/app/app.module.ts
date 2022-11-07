@@ -15,9 +15,8 @@ import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { ProductsComponent } from './components/products/products.component';
 import { MatBadgeModule } from '@angular/material/badge';
-import { GlassModule } from "angular-glass";
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon';
+import { FooterComponent } from './components/footer/footer.component'
 
 @NgModule({
   declarations: [
@@ -25,7 +24,8 @@ import { MatIconModule } from '@angular/material/icon'
     TabComponent,
     CartComponent,
     ProductsComponent,
-    LoginComponent
+    LoginComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -39,8 +39,6 @@ import { MatIconModule } from '@angular/material/icon'
     MatButtonModule,
     FormsModule,
     MatBadgeModule,
-    GlassModule,
-    MatTableModule,
     MatIconModule
   ],
   providers: [],

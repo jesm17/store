@@ -1,11 +1,9 @@
 #i
 {
-   font-size: 50px;
-   margin-left: 5px;
+
+   color: #f44336;
 }
-mat-card{
-  margin: 5px;
-}
+
 #boton {
   position: fixed;
   float: right;
@@ -40,8 +38,13 @@ img{
 
 .card:hover{
   box-shadow: 0 2px 3px rgba(0,0,0,.55);
+
 }
 #menu{
 position: fixed;
 z-index: 100;
 }
+a,a:hover{
+  color: #f44336;
+}
+

@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
+* {
+  color: black;
+}
+#main {
+  margin-top: 150px;
+  position: relative;
+  height: auto;
+  background-color: #f5f5f5;
+  z-index: 10;
+}
+h4 {
+  font-size: 25px;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+}
+h5 {
+  font-size: 15px;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+}
+a,
+a :hover {
+  color: black;
+  text-decoration: none;
+}
+
+img {
+  height: 100px;
+  width: 100px;
+}
+i,h3{
+  font-size: 20px;
+  font-family: "Inter", sans-serif;
+}

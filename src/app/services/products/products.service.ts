@@ -12,4 +12,7 @@ export class ProductsService {
   getproducts(){
     return this.http.get(`${this.URL}/products`)
   }
+  getproduct(id:number){
+    return this.http.get(`${this.URL}/products/${id}`)
+  }
 }
