@@ -1,105 +1,110 @@
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
-/>
-<body>
-  <div *ngIf="hidden">
-    <div class="d-flex justify-content-center my-4">
-      <div class="alert alert-success">
-        There are no products in your cart
-        <i class="bi bi-cart-fill"></i>
-      </div>
-    </div>
-    <div class="d-flex justify-content-center my-4">
-      <img
-        draggable="false"
-        style="width: 500px; height: 500px"
-        src="/assets/Add to Cart-amico.svg"
-      />
+<!-- enable the visibily of elements -->
+<div *ngIf="hidden">
+  <div class="d-flex justify-content-center my-4">
+    <div class="alert alert-success">
+      There are no products in your cart
+      <i class="bi bi-cart-fill"></i>
     </div>
   </div>
+  <div class="d-flex justify-content-center my-4">
+    <img
+      draggable="false"
+      style="width: 500px; height: 500px"
+      src="/assets/Add to Cart-amico.svg"
+    />
+  </div>
+</div>
 
-  <div class="row col-sm-11 my-2 ms-2">
-    <div *ngFor="let product of products" id="main" class=" w-75  mb-2">
-      <div class="w-75 h-100 " >
-        <div class="row cols-5" id="principal">
-          <div class="d-flex aling-items-start">
-            <div class="d-flex align-items-center">
-              <img src="{{ product.image }}" alt="" />
+<div class="row col-sm-11 my-2 ms-2">
+  <div *ngFor="let product of products" id="main" class="w-75 mb-2">
+    <div class="w-75 h-100">
+      <div class="row cols-5" id="principal">
+        <div class="d-flex aling-items-start">
+          <div class="d-flex align-items-center">
+            <img src="{{ product.image }}" alt="" />
+          </div>
+          <div class="row row-cols-1 w-50 h-100 p-1 m-1">
+            <div class="col">
+              <h3 class="fw-semibold">
+                {{ product.title }}
+              </h3>
             </div>
-            <div class="row row-cols-1 w-50 h-100 p-1 m-1">
-              <div class="col">
-                <h3 class="fw-semibold">
-                  {{ product.title }}
-                </h3>
-              </div>
+          </div>
+          <div class="row row-cols-1 d-flex align-items-center w-50 mx-4">
+            <div class="col">
+              <!-- Format the price of the product -->
+              <span class="fw-semibold"> Unit price: </span>
+              {{ product.price | currency: "USD" }}
+              <br />
+              <!-- Get the total price for the selected amount and formated -->
+              <span class="fw-semibold"> Total price: </span>
+              {{ product.price * product.amount | currency: "USD" }}
             </div>
-            <div class="row row-cols-1 d-flex align-items-center w-50 mx-4">
-              <div class="col">
-                <span class="fw-semibold"> Unit price: </span>
-                {{ product.price | currency: "USD" }}
-                <br />
-                <span class="fw-semibold"> Total price: </span>
-                {{ product.price * product.amount | currency: "USD" }}
-              </div>
-            </div>
+          </div>
 
-            <div class="d-flex align-items-center w-50 mx-2">
-              <div class="row row-cols-3 " id="items-principal">
-                <div
-                  class="col d-flex justify-content-center"
-                  (click)="removeAmount(product.id)"
-                >
-                  <button mat-raised-button color="warn">
-                    <i class="bi bi-dash-circle"></i>
-                  </button>
-                </div>
-                <div class="col d-flex justify-content-center num">
-                  <span class="d-flex align-items-center" id="items">
-                    {{ product.amount }}
-                  </span>
-                </div>
-                <div
-                  class="col d-flex justify-content-center"
-                  (click)="addAmount(product.id)"
-                >
-                  <button mat-raised-button color="warn">
-                    <i class="bi bi-plus-circle"></i>
-                  </button>
-                </div>
+          <div class="d-flex align-items-center w-50 mx-2">
+            <div class="row row-cols-3" id="items-principal">
+              <!-- Remove 1 to amount of the product -->
+              <div
+                class="col d-flex justify-content-center"
+                (click)="removeAmount(product.id)"
+              >
+                <button mat-raised-button color="warn">
+                  <i class="bi bi-dash-circle"></i>
+                </button>
+              </div>
+              <!-- Total amount of the product -->
+              <div class="col d-flex justify-content-center num">
+                <span class="d-flex align-items-center" id="items">
+                  {{ product.amount }}
+                </span>
+              </div>
+              <!-- Add 1 to amount of the product -->
+              <div
+                class="col d-flex justify-content-center"
+                (click)="addAmount(product.id)"
+              >
+                <button mat-raised-button color="warn">
+                  <i class="bi bi-plus-circle"></i>
+                </button>
               </div>
             </div>
-            <div
-              class="d-flex justify-content-center d-flex align-items-center ms-3"
-              (click)="removeItem(product.id)"
-            >
-              <button mat-raised-button color="warn" id="remove">
-                <i class="bi bi-trash"></i>
-              </button>
-            </div>
+          </div>
+          <!-- Remove the item -->
+          <div
+            class="d-flex justify-content-center d-flex align-items-center ms-3"
+            (click)="removeItem(product.id)"
+          >
+            <button mat-raised-button color="warn" id="remove">
+              <i class="bi bi-trash"></i>
+            </button>
           </div>
         </div>
       </div>
-      <br />
     </div>
+    <br />
   </div>
+</div>
 
-  <div class="col-sm-2" id="pay">
-    <div class="ms-2 my-1">
-      Total pay:
-      {{ total | currency: "USD" }}
-    </div>
-    <div class="col-sm-12 my-2 ms-2">
-      <button mat-raised-button color="warn" routerLink="/products">
-        Back to buy <i class="bi bi-bag-plus-fill"></i>
-      </button>
-    </div>
-    <div class="col-sm-12 my-2 ms-2" (click)="clearCart()">
-      <button mat-raised-button color="warn">
-        Clear cart <i class="bi bi-cart-x"></i>
-      </button>
-    </div>
+<div class="col-sm-2" id="pay">
+  <div class="ms-2 my-1">
+    Total pay:
+    <!-- Format the total of produvs -->
+    {{ total | currency: "USD" }}
   </div>
+  <div class="col-sm-12 my-2 ms-2">
+    <!-- Go to produtcs -->
+    <button mat-raised-button color="warn" routerLink="/">
+      Back to buy <i class="bi bi-bag-plus-fill"></i>
+    </button>
+  </div>
+  <!-- Clear the cart -->
+  <div class="col-sm-12 my-2 ms-2" (click)="clearCart()">
+    <button mat-raised-button color="warn">
+      Clear cart <i class="bi bi-cart-x"></i>
+    </button>
+  </div>
+</div>
 
-  <app-footer></app-footer>
-</body>
+<!-- Component of footer -->
+<app-footer></app-footer>

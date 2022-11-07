@@ -2,6 +2,14 @@
 * {
   color: black;
 }
+@keyframes a {
+  from {
+    left: 0px;
+  }
+  to {
+    left: 10px;
+  }
+}
 #main {
   margin-top: 150px;
   position: relative;
@@ -19,17 +27,22 @@ h5 {
   font-weight: 400;
   font-family: "Inter", sans-serif;
 }
-a,
-a :hover {
+a {
   color: black;
   text-decoration: none;
+}
+
+a:hover {
+  animation: a 1s infinite;
+  text-decoration: underline;
 }
 
 img {
   height: 100px;
   width: 100px;
 }
-i,h3{
+i,
+h3 {
   font-size: 20px;
   font-family: "Inter", sans-serif;
 }

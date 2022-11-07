@@ -15,114 +15,104 @@ export class CartComponent implements OnInit {
     this.getProducts()
     this.TotalPtice()
   }
-  hidden: boolean = true
-  products: any = []
-  productsCookie: any = []
-  selectID: any = []
-  total = 0
-  resizeCart: any = []
-  saveAmout: any = []
-  selectAmout: any = []
+  hidden: boolean = true // hide items if there are no products in the cart
+  products: any = [] // list of products
+  selectID: any = [] // products selected
+  total = 0 // counter for total
+  resizeCart: any = [] // update the elements of the product list
+  saveAmout: any = [] // stores the quantity of a product
+  selectAmout: any = [] // get the quantity of a product
   getProducts() {
     try {
-      this.selectID = JSON.parse(this.cookieService.get('product'))
-      this.selectID = this.selectID.sort()
-
-      this.selectAmout = JSON.parse(this.cookieService.get('cart'))
+      this.selectID = JSON.parse(this.cookieService.get('product')) // get the id of the product
+      this.selectID = this.selectID.sort() // order the ids
+      this.selectAmout = JSON.parse(this.cookieService.get('cart')) // get the quantity of the product
       if (this.selectID == "") {
-        this.hidden = true
+        this.hidden = true // enable element visibility
       } else {
         this.hidden = false
         for (let i = 0; i < this.selectID.length; i++) {
-          this.productService.getproduct(this.selectID[i]).subscribe(
+          this.productService.getproduct(this.selectID[i]).subscribe( // get product selected
             (res: any) => {
-              this.products.push(res)
+              this.products.push(res) // add product to list of selected products
               for (let j = 0; j < this.products.length; j++) {
                 for (let x = 0; x < this.selectAmout.length; x++) {
-                  if (this.products[j].id == this.selectAmout[x].id) {
-                    this.products[j].amount = this.selectAmout[x].amount
+                  if (this.products[j].id == this.selectAmout[x].id) { // compare the ids
+                    this.products[j].amount = this.selectAmout[x].amount // update product quantity
                   }
                 }
               }
               this.products = this.products.sort()
-              this.TotalPtice()
+              this.TotalPtice() // get total price
             }
           )
         }
-
       }
     } catch (error) {
-      console.log('no producs found');
-      this.hidden = true;
+      this.hidden = true; // enable element visibility
     }
   }
 
-  TotalPtice() {
+  TotalPtice() { // get total price
     let sum = 0
     for (let i = 0; i < this.products.length; i++) {
-      sum = (this.products[i].price * this.products[i].amount) + sum
+      sum = (this.products[i].price * this.products[i].amount) + sum // get the total price of the products
     }
     this.total = sum
   }
 
-  addAmount(product: number) {
-    this.saveAmout.splice(0, this.saveAmout.length)
-
+  addAmount(product: number) { // add a amount
+    this.saveAmout.splice(0, this.saveAmout.length) // reset the amount
     for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].id == product) {
+      if (this.products[i].id == product) { // add 1 to the selected product
         this.products[i].amount += 1
       }
-      this.saveAmout.push({ id: this.products[i].id, amount: this.products[i].amount });
+      this.saveAmout.push({ id: this.products[i].id, amount: this.products[i].amount }); // update the amount of products
     }
-    this.cookieService.set('cart', JSON.stringify(this.saveAmout))
+    this.cookieService.set('cart', JSON.stringify(this.saveAmout)) // set the quantity for the products
 
-    this.TotalPtice()
+    this.TotalPtice() // get total price
   }
 
-  removeAmount(product: number) {
-    this.saveAmout.splice(0, this.saveAmout.length)
+  removeAmount(product: number) { // remove the amount
+    this.saveAmout.splice(0, this.saveAmout.length) // reset the amount
     for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].id == product && this.products[i].amount > 1) {
+      if (this.products[i].id == product && this.products[i].amount > 1) { // remove 1 to the selected product
         this.products[i].amount -= 1
       }
-      this.saveAmout.push({ id: this.products[i].id, amount: this.products[i].amount });
+      this.saveAmout.push({ id: this.products[i].id, amount: this.products[i].amount }); // update the amount of products
     }
     this.cookieService.set('cart', JSON.stringify(this.saveAmout))
-    this.TotalPtice()
+    this.TotalPtice() // get the total price
   }
 
   removeItem(id: number) {
-    this.resizeCart.splice(0, this.resizeCart.length)
-    this.products = this.products.filter((i: any) => i.id != id)
+    this.resizeCart.splice(0, this.resizeCart.length) // reset the amount of cart items
+    this.products = this.products.filter((i: any) => i.id != id) // obtains the products that are different from the selected
     for (let i = 0; i < this.products.length; i++) {
-      this.resizeCart.push(this.products[i].id)
+      this.resizeCart.push(this.products[i].id) // update the product list
     }
-
     if (this.products == "") {
-      this.hidden = true
+      this.hidden = true // enable visibility of elements
     }
-    this.cookieService.set('product', JSON.stringify(this.resizeCart))
-    this.saveAmout = this.saveAmout.filter((i: any) => i.id != id)
-
-    this.cookieService.set('cart', JSON.stringify(this.saveAmout))
-    this.TotalPtice()
+    this.cookieService.set('product', JSON.stringify(this.resizeCart)) // set the new product list
+    this.saveAmout = this.saveAmout.filter((i: any) => i.id != id) // obtains the products that are different from the selected
+    this.cookieService.set('cart', JSON.stringify(this.saveAmout)) // sets the new amount of products
+    this.TotalPtice() // get total price
   }
 
-  clearCart() {
-    if (confirm('Are you sure?')) {
+  clearCart() { // clear all cart data
+    if (confirm('Are you sure?')) { // comfirm to clear all cart data
       if (this.products == "") {
-        alert('nothing to clear')
+        alert('nothing to clear') // if there is nothing in the cart
       } else {
-        alert('the cart has been cleared')
-        this.products.splice(0, this.products.length)
-
-        this.cookieService.delete('product')
-        this.cookieService.delete('cart')
-        this.hidden = true
-        this.TotalPtice()
+        alert('the cart has been cleared') // alert the user to clear the cart
+        this.products.splice(0, this.products.length) // reset the products
+        this.cookieService.delete('product') // delete the cookie of products
+        this.cookieService.delete('cart') // delete the cookie of cart
+        this.hidden = true // enable visibility of elements
+        this.TotalPtice() // get total price
       }
     }
   }
-
-
 }

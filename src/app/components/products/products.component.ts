@@ -23,8 +23,8 @@ export class ProductsComponent implements OnInit {
   listProducts: any = [] // array of products for the cart
   totalItems: number = 0 // count of products for the baged
   itemDetails: any = {} // array of preview item select
-  cookieLength: any = []
-  selectAmout: any = []
+  cookieLength: any = [] // number of products in to cookies
+  selectAmout: any = [] // array of quantity for a product
   readonly showScroll$: Observable<boolean> = fromEvent(
     this.document,
     'scroll'
@@ -40,8 +40,8 @@ export class ProductsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getCategories() // get categories
-    this.getProducts() // get products
+    this.getCategories() // get all categories
+    this.getProducts() // get all products
   }
 
   getCategories() {
@@ -60,7 +60,7 @@ export class ProductsComponent implements OnInit {
       res => {
         this.products = res // products
         try {
-          this.productsCookie = JSON.parse(this.cookieService.get('product'));
+          this.productsCookie = JSON.parse(this.cookieService.get('product')); // get the products already selected of the cookie
           if (this.productsCookie == "") {
             for (let i = 0; i < this.products.length; i++) {
               this.products[i].disable = true // add to the products the attribute disable the add button if does not exist in the local store
@@ -69,7 +69,7 @@ export class ProductsComponent implements OnInit {
             for (let i = 0; i < this.products.length; i++) {
               for (let j = 0; j < this.productsCookie.length; j++) {
                 if (this.products[i].id === this.productsCookie[j]) {
-                  this.products[i].disable = false // add to the products the attribute disable the add button
+                  this.products[i].disable = false // add to the products the attribute disable the add button in flase if the product already selected
                 } else {
                   if (this.products[i].disable === false) {
                     this.products[i].disable = false // add to the products the attribute disable the add button
@@ -81,7 +81,7 @@ export class ProductsComponent implements OnInit {
             }
           }
 
-        } catch (error) {
+        } catch (error) { // if there is nothing in the cookies
           for (let i = 0; i < this.products.length; i++) {
             this.products[i].disable = true // add to the products the attribute disable the add button if does not exist in the local store
           }
@@ -93,24 +93,23 @@ export class ProductsComponent implements OnInit {
   }
 
   addProduct(product: any) {
-    this.selectAmout.splice(0, this.selectAmout.length)
+    this.selectAmout.splice(0, this.selectAmout.length) // reset the amount of the products
     try {
-      this.listProducts = this.productsCookie
+      this.listProducts = this.productsCookie // the list of products are same at the quantity products in the cookie
     } catch (error) {
     }
-    this.listProducts.push(product)
+    this.listProducts.push(product) // add the product to the listProducts
     const id = product
     for (let j = 0; j < this.products.length; j++) {
       if (this.products[j].id == id) {
-        this.products[j].disable = false
+        this.products[j].disable = false // disable the product to add
       }
     }
     this.cookieService.set('product', JSON.stringify(this.listProducts), { sameSite: 'Strict', secure: false, expires: 0.5 }) // create a new cookie with the list of products for the cart
     for (let x = 0; x < this.listProducts.length; x++) {
-      this.selectAmout.push({id:this.listProducts[x], amount:1})
+      this.selectAmout.push({ id: this.listProducts[x], amount: 1 }) // if there is nothing in the
     }
-    this.cookieService.set('cart', JSON.stringify(this.selectAmout  ), { sameSite: 'Strict', secure: false, expires: 0.5 })
-    console.log(this.selectAmout);
+    this.cookieService.set('cart', JSON.stringify(this.selectAmout), { sameSite: 'Strict', secure: false, expires: 0.5 }) // create a new cookie with the amount for the products
 
     this.counter() // update the counter
   }
@@ -124,7 +123,7 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  getCategory(category: string) {
+  getCategory(category: string) { // get a single category
     this.categoriesServices.getCategory(category).subscribe(
       res => {
         this.products = res // get the products of the category selected
@@ -144,21 +143,17 @@ export class ProductsComponent implements OnInit {
   }
 
   clearCart() {
-    console.log(this.listProducts);
-
-
-      if (confirm('Are you sure?')) {
-
-        alert('the cart has been cleared')
-        this.listProducts.splice(0, this.listProducts.length)
-        this.cookieService.delete('product')
-        this.cookieService.delete('cart')
-        this.counter()
-        for (let j = 0; j < this.products.length; j++) {
-          this.products[j].disable = true
-        }
+    if (confirm('Are you sure?')) { // confirm cart removal
+      alert('the cart has been cleared') // alert the user confirm
+      this.listProducts.splice(0, this.listProducts.length) // rezice the listProducts
+      this.cookieService.delete('product') // delete the cookie of products selected
+      this.cookieService.delete('cart') // delete the cookie of amount
+      this.counter()
+      for (let j = 0; j < this.products.length; j++) {
+        this.products[j].disable = true // enable the button to add the product
       }
-    
+    }
+
   }
 
 }

@@ -1,7 +1,9 @@
-#i
-{
-
-   color: #f44336;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
+* {
+  font-family: "Inter", sans-serif;
+}
+#i {
+  color: #f44336;
 }
 
 #boton {
@@ -14,7 +16,7 @@
   background-color: #f4433631;
 }
 
-#i-cart{
+#i-cart {
   position: fixed;
   float: right;
   z-index: 100;
@@ -22,11 +24,11 @@
   right: 15px;
   top: 25px;
 }
-img{
+img {
   width: 150px;
   height: 150px;
 }
-#cart{
+#cart {
   position: fixed;
 
   z-index: 100;
@@ -36,15 +38,18 @@ img{
   top: 25px;
 }
 
-.card:hover{
-  box-shadow: 0 2px 3px rgba(0,0,0,.55);
-
+.card:hover {
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.55);
 }
-#menu{
-position: fixed;
-z-index: 100;
+#menu {
+  position: fixed;
+  z-index: 100;
 }
-a,a:hover{
+a,
+a:hover {
   color: #f44336;
 }
-
+#up{
+  font-size: 25px;
+  color: #ff392b;
+}
